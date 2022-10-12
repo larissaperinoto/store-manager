@@ -8,7 +8,7 @@ const allProducts = async (_req, res) => {
 
 const productsById = async (req, res) => {
   const { id } = req.params;
-  const response = await productsService.requestProductsById(Number(id));
+  const response = await productsService.requestProductById(Number(id));
 
   if (response.message) {
     res.status(404).json(response);

@@ -13,7 +13,7 @@ describe('Testa a camada Products Service', function () {
 
       sinon.stub(productsModel, 'findById').resolves(undefined);
 
-      const response = await productsService.requestProductsById(9999);
+      const response = await productsService.requestProductById(9999);
 
       expect(response).to.be.deep.equal(expected);
 
@@ -22,7 +22,7 @@ describe('Testa a camada Products Service', function () {
     it('Busca por um Id que existe', async function () {
       sinon.stub(productsModel, 'findById').resolves(productsMock[0]);
 
-      const response = await productsService.requestProductsById(2);
+      const response = await productsService.requestProductById(2);
 
       expect(response).to.be.deep.equal(productsMock[0]);
     });

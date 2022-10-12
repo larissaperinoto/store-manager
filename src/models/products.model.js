@@ -14,7 +14,7 @@ const findById = async (productId) => {
     'SELECT * FROM StoreManager.products WHERE id = ?',
     [productId],
   );
-  console.log('mock');
+
   return response[0][0];
 };
 
@@ -26,7 +26,7 @@ const insert = async (product) => {
   const response = await connection.execute(
     `INSERT INTO StoreManager.products (${columns}) VALUE (${placeholders})`,
     [...Object.values(product)],
-    );
+  );
 
   return { insertId: response[0].insertId };
 };

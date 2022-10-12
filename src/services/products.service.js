@@ -5,7 +5,7 @@ const requestProducts = async () => {
   return response;
 };
 
-const requestProductsById = async (productId) => {
+const requestProductById = async (productId) => {
   const product = await productsModel.findById(productId);
   if (product) return product;
   return { message: 'Product not found' };
@@ -18,6 +18,6 @@ const registerProduct = async (product) => {
 
 module.exports = {
   requestProducts,
-  requestProductsById,
+  requestProductById,
   registerProduct,
 };

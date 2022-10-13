@@ -10,6 +10,9 @@ const { productsController } = require('../../../src/controllers');
 const productsMock = require('../models/mock/products.model.mock');
 
 describe('Testa a camada Products Controller', function () {
+
+  afterEach(function () { sinon.restore() });
+
   describe('Testa a camada Products Controller para a função "allProducts"', function () {
     it('Busca por todos os produtos', async function () {
       const req = {};
@@ -59,8 +62,6 @@ describe('Testa a camada Products Controller', function () {
       expect(res.status).to.have.been.calledWith(404);
       expect(res.json).to.have.been.calledWith(serviceResponse);
     });
-
-    afterEach(function () { sinon.restore() });
   });
 
   describe('Testa a camada Products Controller para a função "newProduct"', function () {
@@ -81,4 +82,40 @@ describe('Testa a camada Products Controller', function () {
       expect(res.json).to.have.been.calledWith(serviceResponse);
     });
   });
+
+  describe('Testa a camada Products Controller para a função "updateProduct"', function () {
+    it('Tenta atualizar um produto', async function () {
+      const req = { params: { id: 10 }, body: { name: 'Bicicleta' } };
+      const res = {};
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+
+      const serviceResponse = { id: 10, name: 'Bicicleta' };
+
+      sinon.stub(productsService, 'updateProduct').resolves(serviceResponse);
+
+      await productsController.updateProduct(req, res);
+
+      expect(res.status).to.have.been.calledWith(200);
+      expect(res.json).to.have.been.calledWith(serviceResponse);
+    });
+
+    it('Tenta atualizar um produto que não existe', async function () {
+      const req = { params: { id: 10 }, body: { name: 'Bicicleta' } };
+      const res = {};
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+
+      const serviceResponse = { message: 'Product not found' };
+
+      sinon.stub(productsService, 'updateProduct').resolves(serviceResponse);
+
+      await productsController.updateProduct(req, res);
+
+      expect(res.status).to.have.been.calledWith(404);
+      expect(res.json).to.have.been.calledWith(serviceResponse);
+    });
+  })
 });

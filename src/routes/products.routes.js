@@ -5,6 +5,7 @@ const router = express.Router();
 const { productsController:
   { allProducts, productsById, newProduct, updateProduct },
 } = require('../controllers');
+
 const {
   validateProductNameField,
   validateProductNameSize,

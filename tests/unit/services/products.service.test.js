@@ -51,4 +51,33 @@ describe('Testa a camada Products Service', function () {
       expect(response).to.be.deep.equal(expected);
     });
   });
+
+   describe('Testa camada Products Service para a função "updateProduct"', function () {
+     it('Faz a atualização de um produto', async function () {
+       const productName = 'Bicicleta';
+       const productId = 10;
+       const productUpdated = { id: 10, name: 'Bicicleta' };
+
+      sinon.stub(productsModel, 'findById').resolves({});
+      sinon.stub(productsModel, 'update').resolves(productUpdated);
+
+      const response = await productsService.updateProduct(productName, productId);
+
+      expect(response).to.be.deep.equal(productUpdated);
+     });
+
+    it('Faz a atualização de um produto cujo Id não existe', async function () {
+      const productName = 'Bicicleta';
+      const productId = 10;
+      const message = { message: 'Product not found' };
+
+      sinon.stub(productsModel, 'findById');
+
+      const response = await productsService.updateProduct(productName, productId);
+
+      expect(response).to.be.deep.equal(message);
+    });
+
+     afterEach(function () { sinon.restore() });
+  });
 });

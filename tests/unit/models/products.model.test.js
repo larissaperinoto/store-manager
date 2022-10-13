@@ -6,6 +6,9 @@ const { productsModel } = require('../../../src/models');
 const productsMock = require('./mock/products.model.mock');
 
 describe('Testa a camada Products model', function () {
+
+  afterEach(function () { sinon.restore() });
+
   describe('Testa a camada Products Model para a função "findAll"', function () {
     it('Busca por todos os produtos', async function () {
       sinon.stub(connection, 'execute').resolves([productsMock]);
@@ -38,5 +41,22 @@ describe('Testa a camada Products model', function () {
     });
   });
 
-  afterEach(function () { sinon.restore() });
+  describe('Testa a camada Products Model para a função "update"', function () {
+    it('Faz a atualização de um produto', async function () {
+      const productName = 'Batata';
+      const productId = 10;
+      const productUpdated = { name: 'Batata', id: 10 };
+
+      sinon
+        .stub(connection, 'execute')
+        .onFirstCall()
+        .resolves()
+        .onSecondCall()
+        .resolves([[productUpdated]]);
+
+      const response = await productsModel.update(productName, productId);
+
+      expect(response).to.be.deep.equal(productUpdated);
+    });
+  });
 });

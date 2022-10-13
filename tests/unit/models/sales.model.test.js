@@ -6,6 +6,9 @@ const { salesModel } = require('../../../src/models');
 const salesModelMock = require('./mock/sales.model.mock');
 
 describe('Testa a camada Sales mMdel', function () {
+
+  afterEach(function () { sinon.restore() });
+
   describe('Testa a camada Sales Model para a função "findAll"', function () {
     it('Busca por todas as vendas', async function () {
       sinon.stub(connection, 'execute').resolves([salesModelMock]);
@@ -40,7 +43,22 @@ describe('Testa a camada Sales mMdel', function () {
     });
   });
 
-  afterEach(function () { sinon.restore() });
+  describe('Testa a camada Sales Model para a função "deleta"', function () {
+    it('Busca uma venda pelo Id', async function () {
 
+      const saleId = 100;
+
+      sinon
+        .stub(connection, 'execute')
+        .onFirstCall()
+        .resolves()
+        .onSecondCall()
+        .resolves();
+
+      const response = await salesModel.deleta(saleId);
+
+      expect(response).to.be.deep.equal(undefined);
+    });
+  });
 });
 

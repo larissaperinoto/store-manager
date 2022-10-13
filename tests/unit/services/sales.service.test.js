@@ -7,6 +7,9 @@ const { salesService, productsService } = require('../../../src/services');
 const salesMock = require('../models/mock/sales.model.mock');
 
 describe('Testa a camada Sales Service', function () {
+
+  afterEach(function () { sinon.restore() });
+
   describe('Testa a camada Sales Service para a função "requestSales"', function () {
     it('Busca por todas as vendas', async function () {
       sinon.stub(salesModel, 'findAll').resolves(salesMock);
@@ -41,8 +44,6 @@ describe('Testa a camada Sales Service', function () {
       expect(response).to.be.deep.equal({ message: 'Sale not found' });
 
     });
-
-    afterEach(function () { sinon.restore() });
   });
 
   describe('Testa a camada Sales Service para a função "registerSales"', function () {
@@ -80,7 +81,30 @@ describe('Testa a camada Sales Service', function () {
 
       expect(response).to.be.deep.equal({ message: 'Product not found' });
     });
+  });
 
-    afterEach(function () { sinon.restore() });
+    describe('Testa a camada Sales Service para a função "deleteSale"', function () {
+    it('Deleta uma venda', async function () {
+      const saleId = 100;
+
+      sinon.stub(salesModel, 'findById').resolves([{}]);
+
+      sinon.stub(salesModel, 'deleta');
+
+      const response = await salesService.deleteSale(saleId);
+
+      expect(response).to.be.equal(undefined);
+    });
+
+    it('Tenta deletar uma venda cujo Id não existe', async function () {
+      const saleId = 100;
+      const responseService = { message: 'Product not found' };
+
+      sinon.stub(salesModel, 'findById').resolves(responseService);
+
+      const response = await salesService.deleteSale(saleId);
+
+      expect(response).to.be.deep.equal(responseService);
+    });
   });
 });

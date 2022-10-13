@@ -10,6 +10,9 @@ const { salesController } = require('../../../src/controllers');
 const salesMock = require('../models/mock/sales.model.mock');
 
 describe('Testa a camada Sales Controller', function () {
+
+  afterEach(function () { sinon.restore() });
+
   describe('Testa a camada Sales Controller para a função "allSales"', function () {
     it('Busca por todas as vendas', async function () {
       const req = {};
@@ -27,7 +30,7 @@ describe('Testa a camada Sales Controller', function () {
     });
   });
 
-   describe('Testa a camada Sales Controller para a função "insertSale"', function () {
+  describe('Testa a camada Sales Controller para a função "insertSale"', function () {
     it('Faz a inserção de novas vendas', async function () {
       const req = {
         body: [
@@ -79,7 +82,37 @@ describe('Testa a camada Sales Controller', function () {
       expect(res.status).to.have.been.calledWith(404);
       expect(res.json).to.have.been.calledWith(message);
     });
+  });
 
-     afterEach(function () { sinon.restore() });
+  describe('Testa a camada Sales Controller para a função "deleteSale"', function () {
+    it('Deleta uma venda', async function () {
+      const res = {};
+      const req = { params: { id: 100 } };
+
+      res.sendStatus = sinon.stub().returns(res);
+
+      sinon.stub(salesService, 'deleteSale');
+
+      await salesController.deleteSale(req, res);
+
+      expect(res.sendStatus).to.have.been.calledWith(204);
+    });
+
+    it('Tenta  deletar uma venda cujo Id não existe', async function () {
+      const res = {};
+      const req = { params: { id: 100 } };
+      const message = { message: 'Product not found' };
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+
+      sinon.stub(salesService, 'deleteSale').resolves(message);
+
+      await salesController.deleteSale(req, res);
+
+      expect(res.status).to.have.been.calledWith(404);
+      expect(res.json).to.have.been.calledWith(message);
+
+    });
   });
 });

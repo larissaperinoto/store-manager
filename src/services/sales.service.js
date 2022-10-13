@@ -38,7 +38,7 @@ const requestSaleById = async (saleId) => {
 
 const deleteSale = async (saleId) => {
   const saleExists = await requestSaleById(saleId);
-  console.log(saleExists);
+
   if (saleExists.message) return saleExists;
 
   await salesModel.deleta(saleId);

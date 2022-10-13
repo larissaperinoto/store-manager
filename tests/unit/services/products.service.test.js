@@ -7,6 +7,9 @@ const productsMock = require('../models/mock/products.model.mock');
 const { productsService } = require('../../../src/services');
 
 describe('Testa a camada Products Service', function () {
+
+  afterEach(function () { sinon.restore() });
+
   describe('Testa a camada Products Service para buscas com Id', function () {
     it('Busca produto por um Id que não existe', async function () {
       const expected = { message: 'Product not found' };
@@ -26,8 +29,6 @@ describe('Testa a camada Products Service', function () {
 
       expect(response).to.be.deep.equal(productsMock[0]);
     });
-
-    afterEach(function () { sinon.restore() });
   });
 
   describe('Testa camada Products Service para retornar todos os produtos', function () {
@@ -77,7 +78,29 @@ describe('Testa a camada Products Service', function () {
 
       expect(response).to.be.deep.equal(message);
     });
+   });
 
-     afterEach(function () { sinon.restore() });
+  describe('Testa camada Products Service para a função "deleteProduct"', function () {
+    it('Deleta um produto', async function () {
+      const productId = 10;
+
+      sinon.stub(productsModel, 'findById').resolves({});
+      sinon.stub(productsModel, 'deleta');
+
+      const response = await productsService.deleteProduct(productId);
+
+      expect(response).to.be.equal(undefined);
+    });
+
+    it('Tenta deletar um produto cujo Id não existe', async function () {
+      const productId = 10;
+      const responseService = { message: 'Product not found' };
+
+      sinon.stub(productsModel, 'findById').resolves(responseService);
+
+      const response = await productsService.deleteProduct(productId);
+
+      expect(response).to.be.equal(responseService);
+    });
   });
 });

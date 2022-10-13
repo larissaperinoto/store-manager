@@ -117,5 +117,37 @@ describe('Testa a camada Products Controller', function () {
       expect(res.status).to.have.been.calledWith(404);
       expect(res.json).to.have.been.calledWith(serviceResponse);
     });
-  })
+  });
+
+   describe('Testa a camada Products Controller para a função "deleteProduct"', function () {
+    it('Deleta um produto', async function () {
+      const req = { params: { id: 10 } };
+      const res = {};
+
+      res.sendStatus = sinon.stub().returns(res);
+
+      sinon.stub(productsService, 'deleteProduct');
+
+      await productsController.deleteProduct(req, res);
+
+      expect(res.sendStatus).to.have.been.calledWith(204);
+    });
+
+    it('Tenta deletar um produto que não existe', async function () {
+      const req = { params: { id: 10 } };
+      const res = {};
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+
+      const serviceResponse = { message: 'Product not found' };
+
+      sinon.stub(productsService, 'deleteProduct').resolves(serviceResponse);
+
+      await productsController.deleteProduct(req, res);
+
+      expect(res.status).to.have.been.calledWith(404);
+      expect(res.json).to.have.been.calledWith(serviceResponse);
+    });
+  });
 });

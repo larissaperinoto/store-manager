@@ -59,4 +59,16 @@ describe('Testa a camada Products model', function () {
       expect(response).to.be.deep.equal(productUpdated);
     });
   });
+
+  describe('Testa a camada Products Model para a função "deleta"', function () {
+    it('Envia um pedido de delete', async function () {
+      const productId = 10;
+
+      sinon.stub(connection, 'execute');
+
+      const response = await productsModel.deleta(productId);
+
+      expect(response).to.be.deep.equal(undefined);
+    });
+  });
 });

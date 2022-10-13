@@ -34,7 +34,7 @@ describe('Testa a camada Sales Service', function () {
     it('Busca por uma venda cujo Id não existe', async function () {
       const saleId = 1;
 
-      sinon.stub(salesModel, 'findById');
+      sinon.stub(salesModel, 'findById').resolves([]);
 
       const response = await salesService.requestSaleById(saleId);
 

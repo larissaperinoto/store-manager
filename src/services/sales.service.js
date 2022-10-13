@@ -32,12 +32,21 @@ const registerSales = async (sales) => {
 const requestSaleById = async (saleId) => {
   const sale = await salesModel.findById(saleId);
 
-  if (sale) return sale;
+  if (sale.length !== 0) return sale;
   return { message: 'Sale not found' };
+};
+
+const deleteSale = async (saleId) => {
+  const saleExists = await requestSaleById(saleId);
+  console.log(saleExists);
+  if (saleExists.message) return saleExists;
+
+  await salesModel.deleta(saleId);
 };
 
 module.exports = {
   requestSales,
   registerSales,
   requestSaleById,
+  deleteSale,
 };

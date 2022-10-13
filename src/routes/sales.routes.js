@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 
 const {
-  salesController: { allSales, insertSale },
+  salesController: { allSales, insertSale, deleteSale },
   salesProductsController: { salesProductsById },
 } = require('../controllers');
 
@@ -20,5 +20,7 @@ router.post('/',
   validateQuantityField,
   validateQuantityNumber,
   insertSale);
+
+router.delete('/:id', deleteSale);
 
 module.exports = router;

@@ -15,7 +15,20 @@ const insertSale = async (req, res) => {
   res.status(201).json(response);
 };
 
+const deleteSale = async (req, res) => {
+  const saleId = Number(req.params.id);
+
+  const response = await salesService.deleteSale(saleId);
+  console.log(response);
+  if (response) {
+    res.status(404).json(response);
+  } else {
+    res.sendStatus(204);
+  }
+};
+
 module.exports = {
   allSales,
   insertSale,
+  deleteSale,
 };

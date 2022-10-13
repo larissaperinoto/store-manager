@@ -1,8 +1,8 @@
 const { salesService, salesProductsService } = require('../services');
 
 const allSales = async (_req, res) => {
-    const sales = await salesService.requestSales();
-    res.status(200).json(sales);
+  const sales = await salesService.requestSales();
+  res.status(200).json(sales);
 };
 
 const insertSale = async (req, res) => {

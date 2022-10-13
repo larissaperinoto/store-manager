@@ -35,7 +35,7 @@ describe('Testa a camada Products Controller', function () {
       res.status = sinon.stub().returns(res);
       res.json = sinon.stub().returns();
 
-      sinon.stub(productsService, 'requestProductsById').resolves(productsMock[0]);
+      sinon.stub(productsService, 'requestProductById').resolves(productsMock[0]);
 
       await productsController.productsById(req, res);
 
@@ -52,7 +52,7 @@ describe('Testa a camada Products Controller', function () {
 
       const serviceResponse = { message: 'Product not found' };
 
-      sinon.stub(productsService, 'requestProductsById').resolves(serviceResponse);
+      sinon.stub(productsService, 'requestProductById').resolves(serviceResponse);
 
       await productsController.productsById(req, res);
 

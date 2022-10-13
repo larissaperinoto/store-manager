@@ -20,17 +20,18 @@ const registerSales = async (sales) => {
   const productsExists = await Promise.all(sales
     .map(({ productId }) => productsService.requestProductById(Number(productId))));
 
-  const message = productsExists.find((product) => product.message);
+    const message = productsExists.find((product) => product.message);
 
-  if (message) return message;
+    if (message) return message;
 
-  const saleDate = generateSaleDate();
-  const response = await salesModel.insert(saleDate);
-  return response;
+    const saleDate = generateSaleDate();
+    const insertSaleId = await salesModel.insert(saleDate);
+    return insertSaleId;
 };
 
 const requestSaleById = async (saleId) => {
   const sale = await salesModel.findById(saleId);
+
   if (sale) return sale;
   return { message: 'Sale not found' };
 };

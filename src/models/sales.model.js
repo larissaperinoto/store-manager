@@ -7,12 +7,13 @@ const findAll = async () => {
     FROM StoreManager.sales AS a
     INNER JOIN StoreManager.sales_products AS b on a.id = b.sale_id;`,
   );
+
   return camelize(response[0]);
 };
 
-const insert = async (salesDate) => {
+const insert = async (saleDate) => {
   const response = await connection.execute(
-    `INSERT INTO StoreManager.sales (date) VALUE ('${salesDate}')`,
+    `INSERT INTO StoreManager.sales (date) VALUE ('${saleDate}')`,
   );
 
   return response[0].insertId;

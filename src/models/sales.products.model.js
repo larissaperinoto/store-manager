@@ -7,21 +7,15 @@ const insert = async (salesProducts, saleId) => {
 
   const placeholders = Object.keys(salesProducts[0]).map((_key) => '?').join(', ');
 
-  const responses = [];
-
   salesProducts.forEach(async (product) => {
-   const responseInsertion = await connection.execute(
+   await connection.execute(
       `INSERT INTO StoreManager.sales_products (sale_id, ${columns}) VALUE (?, ${placeholders})`,
      [saleId, ...Object.values(product)],
-   );
-    responses.push(responseInsertion);
+     );
   });
-
-  return responses;
 };
 
 const findById = async (saleId) => {
-  console.log(saleId);
   const response = await connection.execute(
     `Select a.date, b.product_id, b.quantity
       FROM StoreManager.sales AS a
@@ -29,7 +23,6 @@ const findById = async (saleId) => {
       WHERE b.sale_id = ?`,
     [saleId],
   );
-
   return camelize(response[0]);
 };
 

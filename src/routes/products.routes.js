@@ -2,7 +2,9 @@ const express = require('express');
 
 const router = express.Router();
 
-const { productsController: { allProducts, productsById, newProduct } } = require('../controllers');
+const { productsController:
+  { allProducts, productsById, newProduct, updateProduct },
+} = require('../controllers');
 const {
   validateProductNameField,
   validateProductNameSize,
@@ -10,9 +12,10 @@ const {
 
 router.get('/', allProducts);
 router.get('/:id', productsById);
-router.post('/',
-  validateProductNameField,
-  validateProductNameSize,
-  newProduct);
+
+router.use(validateProductNameField, validateProductNameSize);
+
+router.post('/', newProduct);
+router.put('/:id', updateProduct);
 
 module.exports = router;

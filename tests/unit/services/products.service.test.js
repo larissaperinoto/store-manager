@@ -103,4 +103,29 @@ describe('Testa a camada Products Service', function () {
       expect(response).to.be.equal(responseService);
     });
   });
+
+
+  describe('Testa camada Products Service para a função "requestProductByName"', function () {
+    it('Busca um produto pelo nome', async function () {
+      const productName = 'martelo';
+      const responseModel = [{ id: 1, name: 'Martelo do Thor' }];
+
+      sinon.stub(productsModel, 'findByName').resolves(responseModel);
+
+      const response = await productsService.requestProductByName(productName);
+
+      expect(response).to.be.equal(responseModel);
+    });
+
+    it('Busca um produto pelo nome quando este não existe', async function () {
+      const productName = 'martelo';
+      const responseService = { message: 'Product not found' };
+
+      sinon.stub(productsModel, 'findByName');
+
+      const response = await productsService.requestProductByName(productName);
+
+      expect(response).to.be.deep.equal(responseService);
+    });
+  });
 });

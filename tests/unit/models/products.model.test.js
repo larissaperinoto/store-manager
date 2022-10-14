@@ -71,4 +71,19 @@ describe('Testa a camada Products model', function () {
       expect(response).to.be.deep.equal(undefined);
     });
   });
+
+
+  describe('Testa a camada Products Model para a função "findByName"', function () {
+    it('Envia uma busca por produto pelo nome', async function () {
+      const productName = 'martelo';
+
+      const responseDB = [{ id: 1, name: 'Materlo de Thor' }];
+
+      sinon.stub(connection, 'execute').resolves([responseDB]);
+
+      const response = await productsModel.findByName(productName);
+
+      expect(response).to.be.deep.equal(responseDB);
+    });
+  });
 });

@@ -150,4 +150,38 @@ describe('Testa a camada Products Controller', function () {
       expect(res.json).to.have.been.calledWith(serviceResponse);
     });
   });
+
+  describe('Testa a camada Products Controller para a função "searchProduct"', function () {
+    it('Busca um produto pelo nome', async function () {
+      const req = { query: { q: 'martelo' } };
+      const res = {};
+      const responseService = [{ id: 1, name: 'Martelo de Thor' }];
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+
+      sinon.stub(productsService, 'requestProductByName').resolves(responseService);
+
+      await productsController.searchProduct(req, res);
+
+      expect(res.status).to.have.been.calledWith(200);
+      expect(res.json).to.have.been.calledWith(responseService);
+    });
+
+    it('Busca sem o parametro query', async function () {
+      const req = { query: ''};
+      const res = {};
+      const responseService = [{ id: 1, name: 'Martelo de Thor' }, { id: 2, name: 'Bicicleta' }];
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+
+      sinon.stub(productsService, 'requestProducts').resolves(responseService);
+
+      await productsController.searchProduct(req, res);
+
+      expect(res.status).to.have.been.calledWith(200);
+      expect(res.json).to.have.been.calledWith(responseService);
+    });
+  });
 });

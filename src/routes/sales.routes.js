@@ -4,7 +4,7 @@ const router = express.Router();
 
 const {
   salesController: { allSales, insertSale, deleteSale },
-  salesProductsController: { salesProductsById },
+  salesProductsController: { salesProductsById, updateSale },
 } = require('../controllers');
 
 const {
@@ -15,12 +15,14 @@ const {
 
 router.get('/', allSales);
 router.get('/:id', salesProductsById);
-router.post('/',
+router.delete('/:id', deleteSale);
+
+router.use(
   validateProductIdField,
   validateQuantityField,
   validateQuantityNumber,
-  insertSale);
-
-router.delete('/:id', deleteSale);
+);
+router.post('/', insertSale);
+router.put('/:id', updateSale);
 
 module.exports = router;

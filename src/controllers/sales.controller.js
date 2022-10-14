@@ -17,7 +17,7 @@ const insertSale = async (req, res) => {
 
 const deleteSale = async (req, res) => {
   const saleId = Number(req.params.id);
-  console.log(saleId);
+
   const response = await salesService.deleteSale(saleId);
 
   if (response) {

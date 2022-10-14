@@ -23,13 +23,14 @@ const updateSale = async (saleId, salesProducts) => {
     .map(({ productId }) => requestProductById(productId));
 
   const productsExists = await Promise.all(searchProducts);
+  const message = productsExists.find((product) => product.message);
 
-  if (productsExists.some((product) => product.message)) return { message: 'Product not found' };
+  if (message) return message;
 
   await salesProductsModel.update(saleId, salesProducts);
 
   const saleUpdated = await salesProductsModel.findyProductBySaleId(saleId);
-  console.log(saleUpdated);
+
   return saleUpdated;
 };
 

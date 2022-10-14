@@ -50,10 +50,18 @@ const deleta = async (productId) => {
   );
 };
 
+const findByName = async (productName) => {
+  const response = await connection
+    .execute(`SELECT * FROM StoreManager.products WHERE name LIKE '%${productName}%'`);
+
+  return response[0];
+};
+
 module.exports = {
   findAll,
   findById,
   insert,
   update,
   deleta,
+  findByName,
 };

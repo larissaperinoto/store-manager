@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 
 const { productsController:
-  { allProducts, productsById, newProduct, updateProduct, deleteProduct },
+  { allProducts, productsById, newProduct, updateProduct, deleteProduct, searchProduct },
 } = require('../controllers');
 
 const {
@@ -11,6 +11,7 @@ const {
   validateProductNameSize,
 } = require('../middlewares/validateProductNameField');
 
+router.get('/search', searchProduct);
 router.get('/', allProducts);
 router.get('/:id', productsById);
 router.delete('/:id', deleteProduct);

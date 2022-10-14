@@ -35,10 +35,19 @@ const deleteProduct = async (productId) => {
   await productsModel.deleta(productId);
 };
 
+const requestProductByName = async (productName) => {
+  const product = await productsModel.findByName(productName);
+
+  if (product) return product;
+
+  return { message: 'Product not found' };
+};
+
 module.exports = {
   requestProducts,
   requestProductById,
   registerProduct,
   updateProduct,
   deleteProduct,
+  requestProductByName,
 };

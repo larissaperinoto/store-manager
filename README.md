@@ -1,6 +1,6 @@
 # Store manager
 
-A [Trybe](https://www.betrybe.com/) é uma escola de tecnologia com foco em formação de Desenvolvedores Web e o projeto App de Receitas foi proposto como atividade de aprimoramento dos estudos sobre desenvolvimento back-end. 
+A [Trybe](https://www.betrybe.com/) é uma escola de tecnologia com foco em formação de Desenvolvedores Web e o projeto Store Manager foi proposto como atividade de aprimoramento dos estudos sobre desenvolvimento back-end. 
 
 ### Objetivo
 

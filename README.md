@@ -8,7 +8,7 @@ A aplicação foi desenvolvida é um sistema de gerenciamento de vendas onde sev
 
 ### Tecnologias e Ferramentas
 
-A API RESTfull foi desenvolvida utilizando a arquitetura Model-Service-Controller(MSC) e o MySQL para a gestão de dados. Também foi utilizado o Docker para criar o desenvolvimento da aplicação.
+A API RESTfull foi desenvolvida em Node.JS utilizando o framework [Express](https://expressjs.com/pt-br/). Também foi utilizada a arquitetura Model-Service-Controller(MSC) e o MySQL para a gestão de dados. O [Docker](https://www.docker.com/) foi utilizado para criar o ambiente de desenvolvimento da aplicação.
 
 Para a elaboração dos testes, foram utilizadas as ferramentas [mocha](https://mochajs.org/), [chai](https://www.chaijs.com/) e [sinon](https://sinonjs.org/).
 

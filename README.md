@@ -33,33 +33,77 @@ Para a elaboração dos testes unitários da aplicação, foi utilizado:
 
 ## ⚙️ Execução
 
-Para executar a aplicação localmente, inicie realizando o clone deste repositório com o comando abaixo.
+Para executar a aplicação inicie realizando o clone deste repositório com o comando abaixo.
 
     git clone git@github.com:larissaperinoto/store-manager.git
 
-Na raíz do projeto, suba os containers **store_manager** e **store_manager_db** utilizando o docker-compose.
+Navegue até a raíz do projeto.
 
-    docker-compose up -d
+    cd store-manager/
     
-Abra o terminal do container **store_manager**.
+<details>
+   <summary><strong>Rodando local</strong></summary> 
+  </br>
+  
+  <strong>Obs:</strong> Para rodar a aplicação dessa forma você deve ter o Node instalado na sua máquina.
+  
+  Na raíz do projeto execute o comando abaixo para instalar as dependências.
 
-    docker exec -it store_manager bash
+    npm install
 
-Uma vez no terminal do container, execute o comando `npm install`.
-
-Para subir o servidor com o **nodemon** utilize o comando abaixo no terminal do container **store_manager**.
+  Para subir o servidor com o <strong>nodemon</strong> utilize o comando abaixo no terminal do container <strong>store_manager</strong>.
     
     npm run debug
     
- Para se conectar com o banco de dados, abra o terminal do container **store_manager_db**.
+ Faça login no banco de dados utilizando suas credencias. 
+ 
+    mysql -u <seu-usuario> -p
+ 
+ Execute os scripts <strong>migration.sql</strong> e <strong>seed.sql</strong> para a criação do banco <strong>Store Manager</strong>.
+
+Agora podemos rodar os testes utilizando o comando abaixo.
+  
+    npm run test:mocha
+    
+</details>
+    
+<details>
+   <summary><strong>Utilizando o Docker</strong></summary> 
+  </br>
+  
+  <strong>Obs:</strong> Para rodar a aplicação dessa forma você deve ter o Docker instalado na sua máquina.
+  
+  Na raíz do projeto, suba os containers <strong>store_manager</strong> e <strong>store_manager_db</strong> utilizando o docker-compose.
+
+    docker-compose up -d
+    
+  Abra o terminal do container <strong>store_manager</strong>.
+
+     docker exec -it store_manager bash
+
+  Uma vez no terminal do container, execute o comando abaixo para instalar as dependências.
+
+    npm install
+
+  Para subir o servidor com o <strong>nodemon</strong> utilize o comando abaixo no terminal do container <strong>store_manager</strong>.
+    
+    npm run debug
+    
+ Para se conectar com o banco de dados, abra o terminal do container <strong>store_manager_db</strong>.
   
     docker exec -it store_manager_db bash
     
- Faça login no banco de dados utilizando as credencias descritas no arquivo **docker-compose.yaml**. E execute os scripts **migration.sql** e **seed.sql** para a criação do banco **Store Manager** 
+ Faça login no banco de dados utilizando as credencias descritas no arquivo <strong>docker-compose.yaml</strong>. 
+ 
+    mysql -u root -p
+ 
+ Execute os scripts <strong>migration.sql</strong> e <strong>seed.sql</strong> para a criação do banco <strong>Store Manager</strong>.
 
-Agora podemos rodar os testes utilizando o comando abaixo no terminal do container **store_manager**.
+Agora podemos rodar os testes utilizando o comando abaixo no terminal do container <strong>store_manager</strong>.
   
     npm run test:mocha
+    
+</details>
     
 ---
  

@@ -1,1 +1,426 @@
-{}
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Store Manager API",
+    "description": "This API allows you to read, update, create and remove items from a dropshipping store",
+    "contact": {
+      "email": "perinotolarissa@gmail.com"
+    },
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/products": {
+      "get": {
+        "summary": "Read all products",
+        "description": "Returns an array with all products registered in the store",
+        "tags": ["Products"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "aplication/json": {
+                "type": "array",
+                "schema": {
+                  "items": {
+                    "$ref": "#components/schemas/Products"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Register a new product",
+        "description": "Allows the registration of a new product in the store",
+        "tags": ["Products"],
+        "requestBody": {
+          "content": {
+            "aplication/json": {
+              "schema": {
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  }
+                }
+              },
+              "examples": {
+                "product": {
+                  "value": {
+                    "name": "ProductName"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "aplication/json": {
+                "schema": {
+                  "$ref": "#components/schemas/Products"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "'name' is required"
+          },
+          "422": {
+            "description": "'name' length must be at least 5 characters long"
+          }
+        }
+      }
+    },
+    "/products/:id": {
+      "get": {
+        "summary": "Search a product by id",
+        "description": "Returns a single product that can be found by id",
+        "tags": ["Products"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "description": "Product id to search",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "aplication/json": {
+                "type": "array",
+                "schema": {
+                  "$ref": "#components/schemas/Products"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Product not found"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update a product",
+        "description": "Allows update a product if it exists",
+        "tags": ["Products"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "description": "Product id to search",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "aplication/json": {
+              "schema": {
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  }
+                }
+              },
+              "examples": {
+                "product": {
+                  "value": {
+                    "name": "Martelo do Batman"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Updated",
+            "content": {
+              "aplication/json": {
+                "type": "array",
+                "schema": {
+                  "$ref":"#components/schemas/Products"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Product not found"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a product",
+        "description": "Allows delete a product if it exists",
+        "tags": ["Products"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "description": "Product id to search",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Deleted"
+          },
+          "404": {
+            "description": "Product not found"
+          }
+        }
+      }
+    },
+    "/sales": {
+      "get": {
+        "summary": "Read all sales",
+        "description": "Returns an array with all sales registered in the store",
+        "tags": ["Sales"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "aplication/json": {
+                "type": "array",
+                "schema": {
+                  "items": {
+                    "$ref": "#components/schemas/SalesResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Register a new sale",
+        "description": "Allows registering a new sale if the products exists",
+        "tags": ["Sales"],
+        "requestBody": {
+          "content": {
+            "aplication/json": {
+              "schema": {
+                "items": {
+                  "$ref": "#components/schemas/SalesReq"
+                }
+              },
+              "examples": {
+                "sale": {
+                  "value": {
+                    "productId": 1,
+                    "quantity":1
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "aplication/json": {
+                "type": "array",
+                "schema": {
+                  "properties": {
+                    "id": {
+                      "type": "number"
+                    },
+                    "itemsSold": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#components/schemas/SalesReq"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "'productId' and 'quantity' are required"
+          },
+          "404": {
+            "description": "Product not found"
+          },
+          "422": {
+            "description": "'quantity' must be greater than or equal to 1"
+          }
+        }
+      }
+    },
+    "/sale/:id": {
+      "get": {
+        "summary": "Read all sales",
+        "description": "Returns an array with the sale corresponding to the given id",
+        "tags": ["Sales"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "description": "Sale id to search",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "aplication/json": {
+                "type": "array",
+                "schema": {
+                  "items": {
+                    "properties": {
+                      "date": {
+                        "type": "string",
+                        "format": "date-time"
+                      },
+                      "productId": {
+                        "type": "number"
+                      },
+                      "quantity": {
+                        "type": "number"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Sale not found"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update a sale",
+        "description": "Allows update a sale if it exists",
+        "tags": ["Sales"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "description": "Sale id to search",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "aplication/json": {
+              "schema": {
+                "items": {
+                  "$ref": "#components/schemas/SalesReq"
+                }
+              },
+              "examples": {
+                "sale": {
+                  "items": {
+                    "properties": {
+                      "productId": 1,
+                      "quantity":1
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Updated",
+            "content": {
+              "aplication/json": {
+                "type": "array",
+                "schema": {
+                  "properties": {
+                    "salesId": {
+                      "type": "string"
+                    },
+                    "itemsUpdated": {
+                      "type": "array",
+                      "items": {
+                        "$ref":"#components/schemas/SalesReq"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Sale not found"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a sale",
+        "description": "Allows delete a sale if it exists",
+        "tags": ["Sales"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "description": "Sale id to search",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Deleted"
+          },
+          "404": {
+            "description": "Sale not found"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Products": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "SalesReq": {
+        "type": "object",
+        "properties": {
+          "productId": {
+            "type": "number"
+          },
+          "quantity": {
+            "type": "number"
+          }
+        }
+      },
+      "SalesResponse": {
+        "type": "object",
+        "properties": {
+          "saleId": {
+            "type": "number"
+          },
+          "date": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "productId": {
+            "type": "number"
+          },
+          "quantity": {
+            "type": "number"
+          }
+        }
+      }
+    }
+  }
+}

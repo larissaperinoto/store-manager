@@ -1,7 +1,9 @@
+const swaggerUi = require('swagger-ui-express');
+const swaggerJson = require('../swagger.json');
 const app = require('./app');
 require('dotenv').config();
 
-// não altere esse arquivo, essa estrutura é necessária para à avaliação do projeto
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerJson));
 
 app.listen(process.env.PORT, () => {
   console.log(`Escutando na porta ${process.env.PORT}`);
